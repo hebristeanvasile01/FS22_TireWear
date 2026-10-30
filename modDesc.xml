@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<modDesc descVersion="79">
+    <author>FS Modding</author>
+    <version>1.0.0.0</version>
+    <multiplayer supported="true"/>
+    <iconFilename>icon.dds</iconFilename>
+
+    <title>
+        <en>Tire Wear</en>
+        <de>Reifenverschleiß</de>
+        <fr>Usure des pneus</fr>
+    </title>
+
+    <description>
+        <en><![CDATA[Tires wear out with the distance you drive. The more worn they are, the less grip your vehicle has.
+
+- Wear depends on the distance driven (about 300 km for a full set)
+- Worn tires mean reduced traction, and the tread visibly wears down
+- Warnings at 80% and 95% wear
+- Wear is shown in the vehicle info box and is saved with your savegame
+- Replace the tires with LEFT ALT + T (the vehicle must be stopped, costs money)
+- Multiplayer supported
+
+Console command: tireWearSet <0-100>]]></en>
+        <de><![CDATA[Reifen verschleißen mit der gefahrenen Strecke. Je stärker sie abgenutzt sind, desto weniger Grip hat dein Fahrzeug.
+
+- Der Verschleiß hängt von der gefahrenen Strecke ab (ca. 300 km für einen kompletten Satz)
+- Abgefahrene Reifen bedeuten weniger Traktion, und das Profil nutzt sich sichtbar ab
+- Warnungen bei 80 % und 95 % Verschleiß
+- Der Verschleiß wird im Fahrzeug-Infofenster angezeigt und im Spielstand gespeichert
+- Reifen wechseln mit LINKS ALT + T (das Fahrzeug muss stehen, kostet Geld)
+- Multiplayer wird unterstützt
+
+Konsolenbefehl: tireWearSet <0-100>]]></de>
+        <fr><![CDATA[Les pneus s'usent en fonction de la distance parcourue. Plus ils sont usés, moins votre véhicule a d'adhérence.
+
+- L'usure dépend de la distance parcourue (environ 300 km pour un train complet)
+- Des pneus usés réduisent la traction, et la sculpture s'use visiblement
+- Avertissements à 80 % et 95 % d'usure
+- L'usure s'affiche dans la fenêtre d'informations du véhicule et est enregistrée dans la sauvegarde
+- Remplacez les pneus avec ALT GAUCHE + T (le véhicule doit être à l'arrêt, payant)
+- Multijoueur pris en charge
+
+Commande console : tireWearSet <0-100>]]></fr>
+    </description>
+
+    <extraSourceFiles>
+        <sourceFile filename="scripts/TireWearReplaceEvent.lua"/>
+        <sourceFile filename="scripts/RegisterTireWear.lua"/>
+    </extraSourceFiles>
+
+    <actions>
+        <action name="TIREWEAR_REPLACE" category="VEHICLE" axisType="HALF"/>
+    </actions>
+
+    <inputBinding>
+        <actionBinding action="TIREWEAR_REPLACE">
+            <binding device="KB_MOUSE_DEFAULT" input="KEY_lalt KEY_t" axisComponent="+"/>
+        </actionBinding>
+    </inputBinding>
+
+    <l10n>
+        <text name="input_TIREWEAR_REPLACE">
+            <en>Replace tires</en>
+            <de>Reifen wechseln</de>
+            <fr>Changer les pneus</fr>
+        </text>
+        <text name="tireWear_replaceFmt">
+            <en>Replace tires (%.0f%% worn)</en>
+            <de>Reifen wechseln (%.0f%% Verschleiß)</de>
+            <fr>Changer les pneus (%.0f%% d'usure)</fr>
+        </text>
+        <text name="tireWear_info">
+            <en>Tire wear</en>
+            <de>Reifenverschleiß</de>
+            <fr>Usure des pneus</fr>
+        </text>
+        <text name="tireWear_warn1">
+            <en>Tires are heavily worn! Replace them soon.</en>
+            <de>Die Reifen sind stark abgenutzt! Bald wechseln.</de>
+            <fr>Les pneus sont très usés ! Remplacez-les bientôt.</fr>
+        </text>
+        <text name="tireWear_warn2">
+            <en>Tires are almost gone! Grip is very low.</en>
+            <de>Die Reifen sind fast hinüber! Der Grip ist sehr gering.</de>
+            <fr>Les pneus sont presque finis ! L'adhérence est très faible.</fr>
+        </text>
+        <text name="tireWear_stillGood">
+            <en>Tires are still in good condition.</en>
+            <de>Die Reifen sind noch in gutem Zustand.</de>
+            <fr>Les pneus sont encore en bon état.</fr>
+        </text>
+        <text name="tireWear_stopFirst">
+            <en>Stop the vehicle first.</en>
+            <de>Halte zuerst das Fahrzeug an.</de>
+            <fr>Arrêtez d'abord le véhicule.</fr>
+        </text>
+        <text name="tireWear_noMoney">
+            <en>Not enough money to replace the tires (%s).</en>
+            <de>Nicht genug Geld für neue Reifen (%s).</de>
+            <fr>Pas assez d'argent pour changer les pneus (%s).</fr>
+        </text>
+    </l10n>
+</modDesc>
