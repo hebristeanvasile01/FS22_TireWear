@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<i3D name="tireMaterialHolder.i3d" version="1.6" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://i3d.giants.ch/schema/i3d-1.6.xsd">
+  <Asset>
+    <Export program="GIANTS Editor 64bit" version="9.0.4"/>
+  </Asset>
+
+  <Files>
+    <File fileId="2" filename="$data/shared/default_normal.dds"/>
+    <File fileId="3" filename="$data/shared/default_specular.dds"/>
+    <File fileId="1" filename="tireGray_diffuse.dds"/>
+    <File fileId="4" filename="../shaders/vehicleShaderTireWear.xml"/>
+  </Files>
+
+  <Materials>
+    <Material name="tireWearMaterial" materialId="13" customShaderId="4" customShaderVariation="tirePressureDeformation">
+      <Texture fileId="1"/>
+      <Normalmap fileId="2"/>
+      <Glossmap fileId="3"/>
+    </Material>
+  </Materials>
+
+  <Shapes>
+    <IndexedTriangleSet name="tireWearMaterial" shapeId="1">
+      <Vertices count="3" normal="true" uv0="true">
+        <v p="0 0 0" n="0 1 0" t0="0 0"/>
+        <v p="1 0 0" n="0 1 0" t0="1 0"/>
+        <v p="0 0 1" n="0 1 0" t0="0 1"/>
+      </Vertices>
+      <Triangles count="1">
+        <t vi="0 1 2"/>
+      </Triangles>
+      <Subsets count="1">
+        <Subset firstVertex="0" numVertices="3" firstIndex="0" numIndices="3"/>
+      </Subsets>
+    </IndexedTriangleSet>
+  </Shapes>
+
+  <Scene>
+    <TransformGroup name="rootNode" nodeId="8">
+      <Shape name="tireWearMaterial" shapeId="1" nodeId="9" castsShadows="false" receiveShadows="false" distanceBlending="false" materialHolder="true" materialIds="13"/>
+    </TransformGroup>
+  </Scene>
+
+</i3D>
