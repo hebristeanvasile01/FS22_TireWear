@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <modDesc descVersion="79">
     <author>FS Modding</author>
-    <version>1.0.0.0</version>
+    <version>1.1.0.0</version>
     <multiplayer supported="true"/>
     <iconFilename>icon.dds</iconFilename>
 
@@ -18,7 +18,7 @@
 - Worn tires mean reduced traction, and the tread visibly wears down
 - Warnings at 80% and 95% wear
 - Wear is shown in the vehicle info box and is saved with your savegame
-- Replace the tires with LEFT ALT + T (the vehicle must be stopped, costs money)
+- Replace the tires in the workshop with the new "Replace tires" button (click or R)
 - Multiplayer supported
 
 Console command: tireWearSet <0-100>]]></en>
@@ -28,7 +28,7 @@ Console command: tireWearSet <0-100>]]></en>
 - Abgefahrene Reifen bedeuten weniger Traktion, und das Profil nutzt sich sichtbar ab
 - Warnungen bei 80 % und 95 % Verschleiß
 - Der Verschleiß wird im Fahrzeug-Infofenster angezeigt und im Spielstand gespeichert
-- Reifen wechseln mit LINKS ALT + T (das Fahrzeug muss stehen, kostet Geld)
+- Reifen in der Werkstatt mit dem neuen Button "Reifen wechseln" wechseln (Klick oder R)
 - Multiplayer wird unterstützt
 
 Konsolenbefehl: tireWearSet <0-100>]]></de>
@@ -38,7 +38,7 @@ Konsolenbefehl: tireWearSet <0-100>]]></de>
 - Des pneus usés réduisent la traction, et la sculpture s'use visiblement
 - Avertissements à 80 % et 95 % d'usure
 - L'usure s'affiche dans la fenêtre d'informations du véhicule et est enregistrée dans la sauvegarde
-- Remplacez les pneus avec ALT GAUCHE + T (le véhicule doit être à l'arrêt, payant)
+- Changez les pneus à l'atelier avec le nouveau bouton "Changer les pneus" (clic ou R)
 - Multijoueur pris en charge
 
 Commande console : tireWearSet <0-100>]]></fr>
@@ -49,26 +49,21 @@ Commande console : tireWearSet <0-100>]]></fr>
         <sourceFile filename="scripts/RegisterTireWear.lua"/>
     </extraSourceFiles>
 
-    <actions>
-        <action name="TIREWEAR_REPLACE" category="VEHICLE" axisType="HALF"/>
-    </actions>
-
-    <inputBinding>
-        <actionBinding action="TIREWEAR_REPLACE">
-            <binding device="KB_MOUSE_DEFAULT" input="KEY_lalt KEY_t" axisComponent="+"/>
-        </actionBinding>
-    </inputBinding>
-
     <l10n>
-        <text name="input_TIREWEAR_REPLACE">
+        <text name="tireWear_btnTires">
             <en>Replace tires</en>
             <de>Reifen wechseln</de>
             <fr>Changer les pneus</fr>
         </text>
-        <text name="tireWear_replaceFmt">
-            <en>Replace tires (%.0f%% worn)</en>
-            <de>Reifen wechseln (%.0f%% Verschleiß)</de>
-            <fr>Changer les pneus (%.0f%% d'usure)</fr>
+        <text name="tireWear_stillGood">
+            <en>Tires are still in good condition.</en>
+            <de>Die Reifen sind noch in gutem Zustand.</de>
+            <fr>Les pneus sont encore en bon état.</fr>
+        </text>
+        <text name="tireWear_noMoney">
+            <en>Not enough money to replace the tires (%s).</en>
+            <de>Nicht genug Geld für neue Reifen (%s).</de>
+            <fr>Pas assez d'argent pour changer les pneus (%s).</fr>
         </text>
         <text name="tireWear_info">
             <en>Tire wear</en>
@@ -76,29 +71,14 @@ Commande console : tireWearSet <0-100>]]></fr>
             <fr>Usure des pneus</fr>
         </text>
         <text name="tireWear_warn1">
-            <en>Tires are heavily worn! Replace them soon.</en>
-            <de>Die Reifen sind stark abgenutzt! Bald wechseln.</de>
-            <fr>Les pneus sont très usés ! Remplacez-les bientôt.</fr>
+            <en>Tires are heavily worn! Visit the workshop soon.</en>
+            <de>Die Reifen sind stark abgenutzt! Bald zur Werkstatt.</de>
+            <fr>Les pneus sont très usés ! Passez bientôt à l'atelier.</fr>
         </text>
         <text name="tireWear_warn2">
-            <en>Tires are almost gone! Grip is very low.</en>
-            <de>Die Reifen sind fast hinüber! Der Grip ist sehr gering.</de>
-            <fr>Les pneus sont presque finis ! L'adhérence est très faible.</fr>
-        </text>
-        <text name="tireWear_stillGood">
-            <en>Tires are still in good condition.</en>
-            <de>Die Reifen sind noch in gutem Zustand.</de>
-            <fr>Les pneus sont encore en bon état.</fr>
-        </text>
-        <text name="tireWear_stopFirst">
-            <en>Stop the vehicle first.</en>
-            <de>Halte zuerst das Fahrzeug an.</de>
-            <fr>Arrêtez d'abord le véhicule.</fr>
-        </text>
-        <text name="tireWear_noMoney">
-            <en>Not enough money to replace the tires (%s).</en>
-            <de>Nicht genug Geld für neue Reifen (%s).</de>
-            <fr>Pas assez d'argent pour changer les pneus (%s).</fr>
+            <en>Tires are almost gone! Grip is very low. Go to the workshop.</en>
+            <de>Die Reifen sind fast hinüber! Der Grip ist sehr gering. Ab zur Werkstatt.</de>
+            <fr>Les pneus sont presque finis ! L'adhérence est très faible. Allez à l'atelier.</fr>
         </text>
     </l10n>
 </modDesc>
