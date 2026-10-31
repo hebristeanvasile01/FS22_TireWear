@@ -1,5 +1,5 @@
 -- TireWear specialization (FS22)
--- Tires wear with distance driven; worn tires lose grip. Replace them for money.
+-- Tires wear with distance driven; worn tires lose grip. Replace them in the workshop.
 
 TireWear = {}
 
@@ -33,8 +33,8 @@ end
 function TireWear.registerFunctions(vehicleType)
     SpecializationUtil.registerFunction(vehicleType, "setTireWear", TireWear.setTireWear)
     SpecializationUtil.registerFunction(vehicleType, "applyTireWear", TireWear.applyTireWear)
-    SpecializationUtil.registerFunction(vehicleType, "replaceTires", TireWear.replaceTires)
     SpecializationUtil.registerFunction(vehicleType, "getTireReplaceCost", TireWear.getTireReplaceCost)
+    SpecializationUtil.registerFunction(vehicleType, "replaceTires", TireWear.replaceTires)
 end
 
 function TireWear.registerOverwrittenFunctions(vehicleType)
@@ -49,7 +49,6 @@ function TireWear.registerEventListeners(vehicleType)
     SpecializationUtil.registerEventListener(vehicleType, "onWriteStream", TireWear)
     SpecializationUtil.registerEventListener(vehicleType, "onReadUpdateStream", TireWear)
     SpecializationUtil.registerEventListener(vehicleType, "onWriteUpdateStream", TireWear)
-    SpecializationUtil.registerEventListener(vehicleType, "onRegisterActionEvents", TireWear)
 
     -- the wheel meshes are linked after onPostLoad, so also try again on onLoadFinished when it exists
     if vehicleType.eventListeners ~= nil and vehicleType.eventListeners["onLoadFinished"] ~= nil then
@@ -67,9 +66,7 @@ function TireWear:onLoad(savegame)
         permille = 0,
         shownPermille = -1,
         warnLevel = 0,
-        dirtyFlag = self:getNextDirtyFlag(),
-        actionEvents = {},
-        replaceEventId = nil
+        dirtyFlag = self:getNextDirtyFlag()
     }
 end
 
@@ -169,10 +166,6 @@ function TireWear:onUpdate(dt, isActiveForInput, isActiveForInputIgnoreSelection
 
         TireWear.updateVisuals(self)
 
-        if spec.replaceEventId ~= nil then
-            g_inputBinding:setActionEventText(spec.replaceEventId, string.format(g_i18n:getText("tireWear_replaceFmt"), spec.permille / 10))
-        end
-
         local wear = spec.permille / 1000
         local level = 0
         for i, threshold in ipairs(TireWear.WARN_LEVELS) do
@@ -251,7 +244,7 @@ function TireWear:getTireReplaceCost()
     return math.floor(math.max(price, 10000) * TireWear.REPLACE_COST)
 end
 
--- Server only: charges the farm and resets wear.
+-- Server only: charges the farm and resets wear. Called from the workshop button.
 function TireWear:replaceTires()
     if not self.isServer then
         return
@@ -272,52 +265,6 @@ function TireWear:replaceTires()
 
     g_currentMission:addMoney(-cost, farmId, MoneyType.VEHICLE_REPAIR, true, true)
     self:setTireWear(0)
-end
-
-function TireWear:onRegisterActionEvents(isActiveForInput, isActiveForInputIgnoreSelection)
-    if self.isClient then
-        local spec = self.tireWear
-
-        self:clearActionEventsTable(spec.actionEvents)
-        spec.replaceEventId = nil
-
-        if isActiveForInputIgnoreSelection then
-            local _, eventId = self:addActionEvent(spec.actionEvents, InputAction.TIREWEAR_REPLACE, self, TireWear.actionEventReplace, false, true, false, true, nil)
-
-            spec.replaceEventId = eventId
-            g_inputBinding:setActionEventTextPriority(eventId, GS_PRIO_NORMAL)
-            g_inputBinding:setActionEventText(eventId, string.format(g_i18n:getText("tireWear_replaceFmt"), spec.permille / 10))
-        end
-    end
-end
-
-function TireWear.actionEventReplace(self, actionName, inputValue, callbackState, isAnalog)
-    local spec = self.tireWear
-
-    if spec.wear < TireWear.MIN_WEAR_TO_REPLACE then
-        g_currentMission:showBlinkingWarning(g_i18n:getText("tireWear_stillGood"), 2500)
-        return
-    end
-
-    if math.abs(self:getLastSpeed()) > 1 then
-        g_currentMission:showBlinkingWarning(g_i18n:getText("tireWear_stopFirst"), 2500)
-        return
-    end
-
-    local cost = self:getTireReplaceCost()
-    local farm = g_farmManager:getFarmById(self:getOwnerFarmId())
-
-    if farm == nil or farm.money < cost then
-        local text = string.format(g_i18n:getText("tireWear_noMoney"), g_i18n:formatMoney(cost, 0, true, true))
-        g_currentMission:showBlinkingWarning(text, 3000)
-        return
-    end
-
-    if g_server ~= nil then
-        self:replaceTires()
-    else
-        g_client:getServerConnection():sendEvent(TireWearReplaceEvent.new(self))
-    end
 end
 
 ------------------------------------------------------------------------------

@@ -9,7 +9,7 @@ A Farming Simulator 22 mod. Tires wear out with the distance you drive: the more
 - Visible tread wear (custom shader) from 60% wear; new tires keep the original look
 - Warnings at 80% and 95% wear
 - Wear shown in the vehicle info box and saved with the savegame
-- Replace tires with **Left Alt + T** (vehicle must be stopped, costs 3% of the vehicle price)
+- Replace tires in the workshop with the **Replace tires** button next to Repair (click or **R**), costs 3% of the vehicle price
 - Works on all motorized vehicles with wheels
 - Multiplayer supported
 - Languages: English, German, French
